@@ -1,4 +1,4 @@
-import {FreshContext, Handlers, PageProps, RouteConfig} from "$fresh/server.ts";
+import {FreshContext, Handlers, RouteConfig} from "$fresh/server.ts";
 import jwt from "jsonwebtoken";
 import Register from "../components/Register.tsx";
 import { setCookie } from "$std/http/cookie.ts";
@@ -15,11 +15,9 @@ export const handler: Handlers = {
         
         const url = new URL(req.url);
         const form = await req.formData();
-
         const email = form.get("email")?.toString() || "";
         const password = form.get("password")?.toString() || "";
         const name = form.get("name")?.toString() || "";
-
         const body = {email, password, name};
 
         const API_URL = Deno.env.get("API_URL");
@@ -43,16 +41,13 @@ export const handler: Handlers = {
 
 
         const JWT_SECRET = Deno.env.get("JWT_SECRET");
-
         if(!JWT_SECRET) {
             throw new Error("JWT_SECRET is not set in the environment variable")
         };
 
 
         if (response.status == 200) {
-
-            const data: Omit<User, "password" | "favs"> await response.json();
-
+            const data: Omit<User, "password" | "favs"> = await response.json();
 
             const token = jwt.sign(
                 {email, id: data.id, name: data.name},
@@ -72,13 +67,11 @@ export const handler: Handlers = {
             });
 
             headers.set("location", "/videos");
-
-            return new Response ( null, {
+            return new Response(null, {
                 status: 303,
                 headers,
             });
         }
-
         else {
             return ctx.render();
         }
