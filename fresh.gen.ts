@@ -9,7 +9,10 @@ import * as $api_joke from "./routes/api/joke.ts";
 import * as $index from "./routes/index.tsx";
 import * as $login from "./routes/login.tsx";
 import * as $register from "./routes/register.tsx";
-
+import * as $videos from "./routes/videos.tsx";
+import * as $videos_id_ from "./routes/videos/[id].tsx";
+import * as $Fav from "./islands/Fav.tsx";
+import * as $logout from "./islands/logout.tsx";
 import { type Manifest } from "$fresh/server.ts";
 
 const manifest = {
@@ -21,8 +24,13 @@ const manifest = {
     "./routes/index.tsx": $index,
     "./routes/login.tsx": $login,
     "./routes/register.tsx": $register,
+    "./routes/videos.tsx": $videos,
+    "./routes/videos/[id].tsx": $videos_id_,
   },
-  islands: {},
+  islands: {
+    "./islands/Fav.tsx": $Fav,
+    "./islands/logout.tsx": $logout,
+  },
   baseUrl: import.meta.url,
 } satisfies Manifest;
 
